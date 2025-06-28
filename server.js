@@ -31,6 +31,6 @@ wss.on('connection', ws => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-server.listen(3000, () => {
-  console.log('✅ Servidor rodando em http://localhost:3000');
+server.listen(3300, () => {
+  console.log('✅ Servidor rodando em http://localhost:3300');
 });

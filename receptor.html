@@ -42,7 +42,8 @@
   </table>
 
   <script>
-    const socket = new WebSocket("https://envio-9k2k.onrender.com");
+    // const socket = new WebSocket("https://envio-9k2k.onrender.com");
+    const socket = new WebSocket("ws://localhost:3000");
     const lista = document.getElementById("lista-sinais");
     const tabelaHistorico = document.getElementById("tabela-historico");
     // const horario = new Date().toLocaleString();
@@ -50,7 +51,7 @@
     // Array para armazenar o histórico
     const historico = [];
     // Adiciona o horário atual ao histórico
-    historico.push(`Data e hora: ${horario}`);
+    //historico.push(`Data e hora: ${horario}`);
 
     socket.onmessage = async event => {
 
