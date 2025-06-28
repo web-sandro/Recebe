@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Receptor de Sinais</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #c7a8a8;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    th {
+      border: 1px solid #070707;
+      color: #070707;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Sinais Recebidos:</h2>
+  <ol id="lista-sinais"></ol>
+
+  <h2>Histórico de Sinais Recebidos</h2>
+
+  <table id="tabela-historico">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Horas</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const socket = new WebSocket("ws://localhost:3000");
+    const lista = document.getElementById("lista-sinais");
+    const tabelaHistorico = document.getElementById("tabela-historico");
+    const horario = new Date().toLocaleString();
+  
+    // Array para armazenar o histórico
+    const historico = [];
+    // Adiciona o horário atual ao histórico
+    historico.push(`Data e hora: ${horario}`);
+
+    socket.onmessage = async event => {
+
+      const texto = await event.data.text();
+      const data = JSON.parse(texto);
+
+      if (Array.isArray(data.sinais)) {
+        // Adiciona os novos sinais ao histórico
+        data.sinais.forEach(sinal => {
+          historico.push(sinal);
+        });
+
+        // Exibe todos os sinais acumulados
+        lista.innerHTML = '';
+        historico.forEach(sinal => {
+          const li = document.createElement("li");
+          li.textContent = sinal;
+          lista.appendChild(li);
+
+          // Adiciona o sinal à tabela de histórico
+          // const tr = document.createElement("tr");
+
+          // const tdData = document.createElement("td");
+          // tdData.textContent = new Date().toLocaleDateString(); 
+          // tr.appendChild(tdData);
+          // const tdHora = document.createElement("td");
+          // tdHora.textContent = new Date().toLocaleTimeString();
+          // tr.appendChild(tdHora);
+          // tabelaHistorico.querySelector("tbody").appendChild(tr);
+        });
+      }
+    };
+  </script>
+</body>
+
+</html>
