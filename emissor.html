@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Emissor de Sinais</title>
+</head>
+<body> 
+  <h2>Selecione os sinais:</h2>
+  <form id="form-sinais">
+    <!-- <label><input type="checkbox" name="sinais" value="Wi-Fi"> 📶 Wi-Fi</label><br>
+    <label><input type="checkbox" name="sinais" value="GPS"> 📡 GPS</label><br>
+    <label><input type="checkbox" name="sinais" value="Bluetooth"> 🔵 Bluetooth</label><br> -->
+    <label><input type="text" id="msn-input" name="msn" placeholder="Digite seu mensagem"></label><br><br>
+    <!-- <label><input type="text" id="msn-input" name="msn" placeholder="Digite seu mensagem" maxlength="50"></label><br><br> -->
+    
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    // const socket = new WebSocket("ws://localhost:3000");
+    const socket = new WebSocket(location.origin.replace(/^http/, "ws"));
+
+
+    socket.onopen = () => console.log("✅ WebSocket conectado");
+
+    socket.onerror = err => console.error("❌ WebSocket erro:", err);
+
+    document.getElementById('form-sinais').addEventListener('submit', e => {
+      e.preventDefault();
+
+      // Pega os checkboxes marcados
+      const sinaisSelecionados = Array.from(
+        document.querySelectorAll('input[name="sinais"]:checked')
+      ).map(cb => cb.value);
+
+      // Pega o valor do campo de texto (MSN)
+      const msn = document.getElementById("msn-input").value.trim();
+      if (msn !== "") {
+        sinaisSelecionados.push(`MSN: ${msn}`);
+      }
+
+      // Envia para o servidor
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ sinais: sinaisSelecionados }));
+        console.log("📤 Enviado:", sinaisSelecionados);
+      }
+    });
+  </script>
+</body>
+
+</html>

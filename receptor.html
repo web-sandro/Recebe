@@ -42,8 +42,9 @@
   </table>
 
   <script>
-    // const socket = new WebSocket("https://envio-9k2k.onrender.com");
-    const socket = new WebSocket("ws://localhost:3000");
+    // const socket = new WebSocket("ws://localhost:3000");
+    const socket = new WebSocket(location.origin.replace(/^http/, "ws"));
+
     const lista = document.getElementById("lista-sinais");
     const tabelaHistorico = document.getElementById("tabela-historico");
     // const horario = new Date().toLocaleString();

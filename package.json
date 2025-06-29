@@ -1,5 +1,5 @@
 {
-  "name": "servidor-node.js-(websocket)",
+  "name": "recebe",
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
